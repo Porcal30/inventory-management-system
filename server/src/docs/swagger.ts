@@ -11,6 +11,9 @@ const options: swaggerJsdoc.Options = {
     servers: [
       {
         url: "http://localhost:5000"
+      },
+      {
+        url: "https://inventory-management-backend-g1sh.onrender.com/"
       }
     ]
   },
