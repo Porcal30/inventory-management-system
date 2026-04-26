@@ -1,0 +1,161 @@
+<div class="min-h-screen bg-dark text-white overflow-x-hidden">
+  <div class="fixed inset-0 pointer-events-none">
+    <div class="absolute top-0 left-1/4 h-96 w-96 rounded-full bg-primary/20 blur-3xl"></div>
+    <div class="absolute bottom-0 right-0 h-96 w-96 rounded-full bg-accent/10 blur-3xl"></div>
+  </div>
+
+  <div class="relative flex min-h-screen">
+
+    <!-- Desktop Sidebar -->
+    <aside class="hidden lg:flex w-72 shrink-0 flex-col border-r border-white/10 bg-white/5 backdrop-blur-xl p-5">
+      <div class="flex items-center gap-3 px-3 py-4">
+        <div class="h-11 w-11 rounded-2xl bg-gradient-to-br from-primary to-accent shadow-glow"></div>
+        <div>
+          <h1 class="text-lg font-black">Inventra</h1>
+          <p class="text-xs text-slate-400">Inventory System</p>
+        </div>
+      </div>
+
+      <nav class="mt-8 space-y-2">
+        <a routerLink="/dashboard" routerLinkActive="bg-white/10 text-white shadow-cyanGlow"
+          class="block rounded-2xl px-4 py-3 text-slate-300 hover:bg-white/10 hover:text-white transition">
+          Dashboard
+        </a>
+
+        <a routerLink="/products" routerLinkActive="bg-white/10 text-white shadow-cyanGlow"
+          class="block rounded-2xl px-4 py-3 text-slate-300 hover:bg-white/10 hover:text-white transition">
+          Products
+        </a>
+
+        @if (authService.isAdmin()) {
+          <a routerLink="/categories" routerLinkActive="bg-white/10 text-white shadow-cyanGlow"
+            class="block rounded-2xl px-4 py-3 text-slate-300 hover:bg-white/10 hover:text-white transition">
+            Categories
+          </a>
+
+          <a routerLink="/suppliers" routerLinkActive="bg-white/10 text-white shadow-cyanGlow"
+            class="block rounded-2xl px-4 py-3 text-slate-300 hover:bg-white/10 hover:text-white transition">
+            Suppliers
+          </a>
+
+          <a routerLink="/stock-transactions" routerLinkActive="bg-white/10 text-white shadow-cyanGlow"
+            class="block rounded-2xl px-4 py-3 text-slate-300 hover:bg-white/10 hover:text-white transition">
+            Stock
+          </a>
+        }
+      </nav>
+    </aside>
+
+    <!-- Main -->
+    <main class="w-full min-w-0 flex-1 px-4 py-4 sm:px-6 lg:px-8 lg:py-8">
+
+      <!-- Mobile Premium Header -->
+      <header class="mb-6 lg:hidden">
+        <div class="glass-card rounded-3xl p-4">
+          <div class="flex items-center justify-between gap-3">
+            <div class="flex items-center gap-3 min-w-0">
+              <div class="h-12 w-12 shrink-0 rounded-2xl bg-gradient-to-br from-primary to-accent shadow-glow"></div>
+
+              <div class="min-w-0">
+                <h1 class="truncate text-xl font-black">Inventra</h1>
+                <p class="truncate text-xs text-slate-400">
+                  {{ authService.currentUser()?.role || 'user' }} dashboard
+                </p>
+              </div>
+            </div>
+
+            <div class="flex shrink-0 items-center gap-2">
+              <button class="rounded-full border border-white/10 bg-white/10 px-3 py-3 hover:bg-white/20 transition">
+                🔔
+              </button>
+
+              <button
+                (click)="logout()"
+                class="rounded-full border border-red-400/20 bg-red-500/10 px-4 py-3 text-xs font-bold text-red-200 hover:bg-red-500/20 transition">
+                Logout
+              </button>
+            </div>
+          </div>
+
+          <div class="mt-4 rounded-2xl border border-white/10 bg-white/10 px-4 py-3">
+            <p class="text-xs text-slate-400">Welcome back</p>
+            <p class="truncate text-sm font-bold text-white">
+              {{ authService.currentUser()?.name || authService.currentUser()?.email || 'Inventory User' }}
+            </p>
+          </div>
+        </div>
+      </header>
+
+      <!-- Desktop Header -->
+      <header class="mb-8 hidden items-center justify-between gap-4 lg:flex">
+        <div class="min-w-0">
+          <p class="text-sm text-slate-400">Welcome back</p>
+          <h2 class="truncate text-3xl font-black">
+            Inventory Dashboard
+          </h2>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <button class="rounded-full border border-white/10 bg-white/10 px-4 py-3 hover:bg-white/20 transition">
+            🔔
+          </button>
+
+          <button
+            (click)="logout()"
+            class="rounded-full border border-red-400/20 bg-red-500/10 px-5 py-3 text-sm font-semibold text-red-200 hover:bg-red-500/20 transition">
+            Logout
+          </button>
+
+          <div class="hidden xl:block text-right">
+            <p class="text-sm font-bold">
+              {{ authService.currentUser()?.name || 'User' }}
+            </p>
+            <p class="text-xs uppercase tracking-wider text-cyan-300">
+              {{ authService.currentUser()?.role }}
+            </p>
+          </div>
+
+        </div>
+      </header>
+
+      <!-- Page Content -->
+      <div class="w-full min-w-0 pb-24 lg:pb-0">
+        <router-outlet></router-outlet>
+      </div>
+
+      <!-- Mobile Bottom Navigation -->
+      <nav class="fixed bottom-3 left-3 right-3 z-50 grid rounded-3xl border border-white/10 bg-slate-950/90 p-2 backdrop-blur-xl lg:hidden"
+        [class.grid-cols-2]="!authService.isAdmin()"
+        [class.grid-cols-5]="authService.isAdmin()">
+
+        <a routerLink="/dashboard" routerLinkActive="bg-white/10 text-white"
+          class="rounded-2xl px-2 py-3 text-center text-xs text-slate-400">
+          Dash
+        </a>
+
+        <a routerLink="/products" routerLinkActive="bg-white/10 text-white"
+          class="rounded-2xl px-2 py-3 text-center text-xs text-slate-400">
+          Products
+        </a>
+
+        @if (authService.isAdmin()) {
+          <a routerLink="/categories" routerLinkActive="bg-white/10 text-white"
+            class="rounded-2xl px-2 py-3 text-center text-xs text-slate-400">
+            Cat.
+          </a>
+
+          <a routerLink="/suppliers" routerLinkActive="bg-white/10 text-white"
+            class="rounded-2xl px-2 py-3 text-center text-xs text-slate-400">
+            Sup.
+          </a>
+
+          <a routerLink="/stock-transactions" routerLinkActive="bg-white/10 text-white"
+            class="rounded-2xl px-2 py-3 text-center text-xs text-slate-400">
+            Stock
+          </a>
+        }
+      </nav>
+
+    </main>
+  </div>
+</div>

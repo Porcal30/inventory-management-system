@@ -1,0 +1,220 @@
+<div class="space-y-8">
+
+  <section class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+    <div>
+      <p class="text-sm font-semibold uppercase tracking-[0.25em] text-cyan-300">
+        Supplier Network
+      </p>
+
+      <h1 class="mt-2 text-3xl font-black sm:text-4xl">Suppliers</h1>
+
+      <p class="mt-2 text-slate-400">
+        Manage supplier information, contact details, and addresses.
+      </p>
+    </div>
+
+    <div class="rounded-full border border-cyan-400/20 bg-cyan-500/10 px-5 py-3 text-sm font-bold text-cyan-200">
+      {{ suppliers.length }} Suppliers
+    </div>
+  </section>
+
+  @if (successMessage) {
+    <div class="rounded-2xl border border-green-400/20 bg-green-500/10 p-4 text-green-200">
+      {{ successMessage }}
+    </div>
+  }
+
+  @if (errorMessage) {
+    <div class="rounded-2xl border border-red-400/20 bg-red-500/10 p-4 text-red-200">
+      {{ errorMessage }}
+    </div>
+  }
+
+  @if (authService.isAdmin()) {
+    <section class="glass-card rounded-premium p-5 sm:p-6">
+      <div class="mb-5">
+        <h2 class="text-xl font-black">Add New Supplier</h2>
+        <p class="text-sm text-slate-400">
+          Add supplier details for better inventory tracking.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
+        <input
+          [(ngModel)]="newSupplier.name"
+          placeholder="Supplier name"
+          class="rounded-2xl border border-white/10 bg-white/10 px-5 py-4 text-white outline-none placeholder:text-slate-500 focus:border-accent focus:shadow-cyanGlow"
+        />
+
+        <input
+          [(ngModel)]="newSupplier.contact_person"
+          placeholder="Contact person"
+          class="rounded-2xl border border-white/10 bg-white/10 px-5 py-4 text-white outline-none placeholder:text-slate-500 focus:border-accent focus:shadow-cyanGlow"
+        />
+
+        <input
+          [(ngModel)]="newSupplier.phone"
+          placeholder="Phone number"
+          class="rounded-2xl border border-white/10 bg-white/10 px-5 py-4 text-white outline-none placeholder:text-slate-500 focus:border-accent focus:shadow-cyanGlow"
+        />
+
+        <input
+          [(ngModel)]="newSupplier.email"
+          placeholder="Email address"
+          type="email"
+          class="rounded-2xl border border-white/10 bg-white/10 px-5 py-4 text-white outline-none placeholder:text-slate-500 focus:border-accent focus:shadow-cyanGlow"
+        />
+
+        <input
+          [(ngModel)]="newSupplier.address"
+          placeholder="Address"
+          class="rounded-2xl border border-white/10 bg-white/10 px-5 py-4 text-white outline-none placeholder:text-slate-500 focus:border-accent focus:shadow-cyanGlow xl:col-span-2"
+        />
+
+        <button
+          (click)="addSupplier()"
+          class="premium-button w-full md:col-span-2 xl:col-span-3">
+          + Add Supplier
+        </button>
+      </div>
+    </section>
+  }
+
+  @if (loading) {
+    <div class="glass-card rounded-premium p-6">
+      <div class="grid gap-4 md:grid-cols-2">
+        @for (item of [1,2,3,4]; track item) {
+          <div class="h-40 animate-pulse rounded-3xl bg-white/10"></div>
+        }
+      </div>
+    </div>
+  }
+
+  @if (!loading) {
+    <section class="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
+
+      @for (supplier of suppliers; track supplier.id) {
+        <div class="glass-card rounded-premium p-5 transition hover:-translate-y-1 hover:shadow-cyanGlow">
+
+          @if (editingId === supplier.id) {
+            <div class="space-y-4">
+              <input
+                [(ngModel)]="editingSupplier.name"
+                placeholder="Supplier name"
+                class="w-full rounded-2xl border border-white/10 bg-white/10 px-5 py-4 text-white outline-none focus:border-accent"
+              />
+
+              <input
+                [(ngModel)]="editingSupplier.contact_person"
+                placeholder="Contact person"
+                class="w-full rounded-2xl border border-white/10 bg-white/10 px-5 py-4 text-white outline-none focus:border-accent"
+              />
+
+              <input
+                [(ngModel)]="editingSupplier.phone"
+                placeholder="Phone"
+                class="w-full rounded-2xl border border-white/10 bg-white/10 px-5 py-4 text-white outline-none focus:border-accent"
+              />
+
+              <input
+                [(ngModel)]="editingSupplier.email"
+                placeholder="Email"
+                type="email"
+                class="w-full rounded-2xl border border-white/10 bg-white/10 px-5 py-4 text-white outline-none focus:border-accent"
+              />
+
+              <textarea
+                [(ngModel)]="editingSupplier.address"
+                rows="3"
+                placeholder="Address"
+                class="w-full rounded-2xl border border-white/10 bg-white/10 px-5 py-4 text-white outline-none placeholder:text-slate-500 focus:border-accent"
+              ></textarea>
+
+              <div class="flex gap-2">
+                <button
+                  (click)="updateSupplier()"
+                  class="flex-1 rounded-full bg-green-500/20 px-4 py-3 text-sm font-bold text-green-200 hover:bg-green-500/30">
+                  Save
+                </button>
+
+                <button
+                  (click)="cancelEdit()"
+                  class="flex-1 rounded-full bg-white/10 px-4 py-3 text-sm font-bold text-slate-200 hover:bg-white/20">
+                  Cancel
+                </button>
+              </div>
+            </div>
+          } @else {
+            <div class="flex items-start justify-between gap-4">
+              <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-primary/30 to-accent/30 text-2xl">
+                🚚
+              </div>
+
+              @if (authService.isAdmin()) {
+                <div class="flex gap-2">
+                  <button
+                    (click)="startEdit(supplier)"
+                    class="rounded-full border border-cyan-400/20 bg-cyan-500/10 px-3 py-2 text-xs font-bold text-cyan-200 hover:bg-cyan-500/20">
+                    Edit
+                  </button>
+
+                  <button
+                    (click)="deleteSupplier(supplier.id)"
+                    class="rounded-full border border-red-400/20 bg-red-500/10 px-3 py-2 text-xs font-bold text-red-200 hover:bg-red-500/20">
+                    Delete
+                  </button>
+                </div>
+              }
+            </div>
+
+            <h3 class="mt-5 text-xl font-black">
+              {{ supplier.name }}
+            </h3>
+
+            <div class="mt-4 space-y-3 text-sm text-slate-300">
+              <p>
+                <span class="text-slate-500">Contact:</span>
+                {{ supplier.contact_person || 'Not provided' }}
+              </p>
+
+              <p>
+                <span class="text-slate-500">Phone:</span>
+                {{ supplier.phone || 'Not provided' }}
+              </p>
+
+              <p>
+                <span class="text-slate-500">Email:</span>
+                {{ supplier.email || 'Not provided' }}
+              </p>
+
+              <p>
+                <span class="text-slate-500">Address:</span>
+                {{ supplier.address || 'Not provided' }}
+              </p>
+            </div>
+
+            <div class="mt-5 border-t border-white/10 pt-4">
+              <p class="truncate text-xs text-slate-500">
+                ID: {{ supplier.id }}
+              </p>
+            </div>
+          }
+        </div>
+      }
+
+    </section>
+
+    @if (suppliers.length === 0) {
+      <div class="glass-card rounded-premium p-10 text-center">
+        <div class="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-3xl bg-white/10 text-4xl">
+          🚚
+        </div>
+        <h2 class="text-2xl font-black">No suppliers yet</h2>
+        <p class="mt-2 text-slate-400">
+          Create your first supplier record.
+        </p>
+      </div>
+    }
+  }
+
+</div>

@@ -1,0 +1,164 @@
+<div class="space-y-8">
+
+  <section class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+    <div>
+      <p class="text-sm font-semibold uppercase tracking-[0.25em] text-cyan-300">
+        Inventory Movement
+      </p>
+
+      <h1 class="mt-2 text-3xl font-black sm:text-4xl">
+        Stock Transactions
+      </h1>
+
+      <p class="mt-2 text-slate-400">
+        Record stock-in and stock-out activity while keeping inventory quantities accurate.
+      </p>
+    </div>
+
+    <div class="rounded-full border border-cyan-400/20 bg-cyan-500/10 px-5 py-3 text-sm font-bold text-cyan-200">
+      {{ transactions.length }} Transactions
+    </div>
+  </section>
+
+  @if (successMessage) {
+    <div class="rounded-2xl border border-green-400/20 bg-green-500/10 p-4 text-green-200">
+      {{ successMessage }}
+    </div>
+  }
+
+  @if (errorMessage) {
+    <div class="rounded-2xl border border-red-400/20 bg-red-500/10 p-4 text-red-200">
+      {{ errorMessage }}
+    </div>
+  }
+
+  @if (authService.isAdmin()) {
+    <section class="glass-card rounded-premium p-5 sm:p-6">
+      <div class="mb-5">
+        <h2 class="text-xl font-black">Create Stock Transaction</h2>
+        <p class="text-sm text-slate-400">
+          Use stock-in to add quantity and stock-out to reduce quantity.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 gap-4 lg:grid-cols-4">
+        <select
+          [(ngModel)]="form.product_id"
+          class="rounded-2xl border border-white/10 bg-white/10 px-5 py-4 text-white outline-none focus:border-accent focus:shadow-cyanGlow lg:col-span-2">
+          <option class="bg-slate-900" value="">Select Product</option>
+          @for (product of products; track product.id) {
+            <option class="bg-slate-900" [value]="product.id">
+              {{ product.name }} — Qty: {{ product.quantity }}
+            </option>
+          }
+        </select>
+
+        <select
+          [(ngModel)]="form.type"
+          class="rounded-2xl border border-white/10 bg-white/10 px-5 py-4 text-white outline-none focus:border-accent focus:shadow-cyanGlow">
+          <option class="bg-slate-900" value="stock-in">Stock In</option>
+          <option class="bg-slate-900" value="stock-out">Stock Out</option>
+        </select>
+
+        <input
+          [(ngModel)]="form.quantity"
+          type="number"
+          min="1"
+          placeholder="Quantity"
+          class="rounded-2xl border border-white/10 bg-white/10 px-5 py-4 text-white outline-none placeholder:text-slate-500 focus:border-accent focus:shadow-cyanGlow"
+        />
+
+        <input
+          [(ngModel)]="form.remarks"
+          placeholder="Remarks optional"
+          class="rounded-2xl border border-white/10 bg-white/10 px-5 py-4 text-white outline-none placeholder:text-slate-500 focus:border-accent focus:shadow-cyanGlow lg:col-span-3"
+        />
+
+        <button
+          (click)="createTransaction()"
+          [disabled]="saving"
+          class="premium-button w-full disabled:opacity-60">
+          {{ saving ? 'Saving...' : 'Save Transaction' }}
+        </button>
+      </div>
+    </section>
+  }
+
+  @if (loading) {
+    <div class="glass-card rounded-premium p-6">
+      <div class="space-y-4">
+        @for (item of [1,2,3,4]; track item) {
+          <div class="h-16 animate-pulse rounded-2xl bg-white/10"></div>
+        }
+      </div>
+    </div>
+  }
+
+  @if (!loading) {
+    <section class="glass-card overflow-hidden rounded-premium">
+
+      @if (transactions.length === 0) {
+        <div class="p-10 text-center">
+          <div class="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-3xl bg-white/10 text-4xl">
+            📊
+          </div>
+          <h2 class="text-2xl font-black">No transactions yet</h2>
+          <p class="mt-2 text-slate-400">
+            Start by creating a stock-in or stock-out transaction.
+          </p>
+        </div>
+      }
+
+      @if (transactions.length > 0) {
+        <div class="overflow-x-auto">
+          <table class="w-full min-w-[850px] text-left text-sm">
+            <thead class="bg-white/10 text-slate-300">
+              <tr>
+                <th class="px-5 py-4">Product</th>
+                <th class="px-5 py-4">Type</th>
+                <th class="px-5 py-4">Quantity</th>
+                <th class="px-5 py-4">Remarks</th>
+                <th class="px-5 py-4">Date</th>
+              </tr>
+            </thead>
+
+            <tbody class="divide-y divide-white/10">
+              @for (transaction of transactions; track transaction.id) {
+                <tr class="transition hover:bg-white/5">
+                  <td class="px-5 py-4 font-semibold">
+                    {{ getProductName(transaction) }}
+                  </td>
+
+                  <td class="px-5 py-4">
+                    <span
+                      class="rounded-full px-3 py-1 text-xs font-bold"
+                      [class.bg-green-500/20]="transaction.type === 'stock-in'"
+                      [class.text-green-200]="transaction.type === 'stock-in'"
+                      [class.bg-red-500/20]="transaction.type === 'stock-out'"
+                      [class.text-red-200]="transaction.type === 'stock-out'">
+                      {{ transaction.type }}
+                    </span>
+                  </td>
+
+                  <td class="px-5 py-4">
+                    {{ transaction.quantity }}
+                  </td>
+
+                  <td class="px-5 py-4 text-slate-400">
+                    {{ transaction.remarks || '—' }}
+                  </td>
+
+                  <td class="px-5 py-4 text-slate-400">
+                    {{ transaction.created_at || transaction.date || '—' }}
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+
+    </section>
+  }
+
+</div>
