@@ -28,7 +28,7 @@ app.use(morgan("dev"));
 const allowedOrigins = [
   "http://localhost:4200",
   "http://localhost:3000",
-  "https://inventory-management-system-three-iota.vercel.app"
+  "https://inventory-management-system-three-psi.vercel.app"
 ];
 
 app.use(
