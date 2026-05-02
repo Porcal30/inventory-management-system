@@ -284,7 +284,9 @@ inventory-management-system/
 
 **Christian Porcal**  
 📧 porcalchristian36@gmail.com
+
 📧 shanthijosefrafaelsbarrido@gmail.com
+
 📧 suya@me30.com
 
 ---
