@@ -283,7 +283,9 @@ inventory-management-system/
 # 👨‍💻 Author
 
 **Christian Porcal**  
-📧 porcalchristian36@gmail.com  
+📧 porcalchristian36@gmail.com
+📧 shanthijosefrafaelsbarrido@gmail.com
+📧 suya@me30.com
 
 ---
 
