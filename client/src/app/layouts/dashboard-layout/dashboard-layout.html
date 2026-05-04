@@ -6,16 +6,20 @@
 
   <div class="relative flex min-h-screen">
 
-    <!-- Desktop Sidebar -->
+    <!-- Sidebar -->
     <aside class="hidden lg:flex w-72 shrink-0 flex-col border-r border-white/10 bg-white/5 backdrop-blur-xl p-5">
+
+      <!-- [Logo] -->
       <div class="flex items-center gap-3 px-3 py-4">
-        <div class="h-11 w-11 rounded-2xl bg-gradient-to-br from-primary to-accent shadow-glow"></div>
+        <img src="apple-touch-icon.png" alt="Inventra Logo"
+               class="h-11 w-11 rounded-2xl object-cover shadow-glow" />
         <div>
           <h1 class="text-lg font-black">Inventra</h1>
           <p class="text-xs text-slate-400">Inventory System</p>
         </div>
       </div>
 
+      <!-- [Menu] -->
       <nav class="mt-8 space-y-2">
         <a routerLink="/dashboard" routerLinkActive="bg-white/10 text-white shadow-cyanGlow"
           class="block rounded-2xl px-4 py-3 text-slate-300 hover:bg-white/10 hover:text-white transition">
@@ -44,17 +48,19 @@
           </a>
         }
       </nav>
+
     </aside>
 
     <!-- Main -->
     <main class="w-full min-w-0 flex-1 px-4 py-4 sm:px-6 lg:px-8 lg:py-8">
 
-      <!-- Mobile Premium Header -->
+      <!-- Mobile Header -->
       <header class="mb-6 lg:hidden">
         <div class="glass-card rounded-3xl p-4">
           <div class="flex items-center justify-between gap-3">
             <div class="flex items-center gap-3 min-w-0">
-              <div class="h-12 w-12 shrink-0 rounded-2xl bg-gradient-to-br from-primary to-accent shadow-glow"></div>
+              <img src="apple-touch-icon.png" alt="Inventra Logo"
+               class="h-11 w-11 rounded-2xl object-cover shadow-glow" />
 
               <div class="min-w-0">
                 <h1 class="truncate text-xl font-black">Inventra</h1>
@@ -114,7 +120,6 @@
               {{ authService.currentUser()?.role }}
             </p>
           </div>
-
         </div>
       </header>
 

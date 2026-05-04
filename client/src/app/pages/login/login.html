@@ -1,12 +1,16 @@
 <div>
+  <div>
   <div class="mb-8 text-center">
-    <div class="mx-auto mb-5 h-16 w-16 rounded-3xl bg-gradient-to-br from-primary to-accent shadow-glow"></div>
+    <img src="apple-touch-icon.png" 
+         alt="Inventra Logo"
+         class="block mx-auto h-20 w-20 rounded-2xl object-cover shadow-glow" />
 
-    <h1 class="text-3xl font-black">Welcome Back</h1>
+    <h1 class="text-3xl font-black mt-5">Welcome Back</h1>
     <p class="mt-2 text-sm text-slate-400">
       Sign in to manage your inventory dashboard.
     </p>
   </div>
+</div>
 
   <form [formGroup]="loginForm" (ngSubmit)="submit()" class="space-y-5">
     <div>
