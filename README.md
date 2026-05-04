@@ -179,6 +179,37 @@ inventory-management-system/
 
 ---
 
+# 🖼️ UI Screenshots
+
+| Page | Screenshot |
+|---|---|
+| Dashboard | `screenshots/dashboard.png` |
+| Product Management | `screenshots/products.png` |
+| Add Product | `screenshots/add-product.png` |
+| Category Management | `screenshots/categories.png` |
+| Supplier Management | `screenshots/suppliers.png` |
+| Stock Transactions | `screenshots/stock-transactions.png` |
+| Login Page | `screenshots/login.png` |
+| Register Page | `screenshots/register.png` |
+
+---
+
+# 🧪 API Testing (Postman / Swagger)
+
+| Endpoint | Screenshot |
+|---|---|
+| POST `/api/auth/login` | `screenshots/api-login.png` |
+| POST `/api/auth/register` | `screenshots/api-register.png` |
+| GET `/api/products` | `screenshots/api-products.png` |
+| POST `/api/products` | `screenshots/api-create-product.png` |
+| GET `/api/categories` | `screenshots/api-categories.png` |
+| GET `/api/suppliers` | `screenshots/api-suppliers.png` |
+| GET `/api/stock-transactions` | `screenshots/api-stock-transactions.png` |
+
+---
+
+---
+
 # 🔗 API Endpoints
 
 # 🔐 Authentication
